@@ -1,17 +1,18 @@
 __author__ = 'HP'
 import itertools
 
-### 1. The problem talks about how the Amazon parrots were delivering the ordered items at the wron places to the wrong people. The state space here would be
-###   all the combinations possible for the 5 different people ordering 5 different items at five different places,wherein each combination has one person ordering one particular item at one address , the sum of which was 14400.
-### The successor function for identifying the next possible steps would be by applying the information we have about the list of people who have received the items that they did not order.
-###For example : The person who ordered the Candelabraum received a Banister. So we can compare that with the list of ordered items and build a list where the person who ordered the Candelabraum receives the Banister.
-###Now on comparison with the combinations of the  list of people who have ordered items that we generated,we can eliminate choices where the person has  received a Banister but have also ordered a Banister.
-### We follow this methodology to identify and remove wrong deductions thereby getting the final original list.
+# 1. The problem talks about how the Amazon parrots were delivering the ordered items at the wron places to the wrong people. The state space here would be
+#   all the combinations possible for the 5 different people ordering 5 different items at five different places,wherein each combination has one person ordering one particular item at one address , the sum of which was 14400.
+# The successor function for identifying the next possible steps would be by applying the information we have about the list of people who have received the items that they did not order.
+#For example : The person who ordered the Candelabraum received a Banister. So we can compare that with the list of ordered items and build a list where the person who ordered the Candelabraum receives the Banister.
+#Now on comparison with the combinations of the  list of people who have ordered items that we generated,we can eliminate choices where the person has  received a Banister but have also ordered a Banister.
+#We follow this methodology to identify and remove wrong deductions thereby getting the final original list.
 
-####3. We made a design decision of keeping a list of lists and where the MasterCombinations list would hold the list of each combination of people,items and people. We faced a challenge
-#### in implementing the function for removal of wrong combinations as we were removing the items while iterating which resulted in wrong indexing and gave us the wrong combinations. This was
-### rectified by adding the condition for removal after iterating over all the items in the combination and then removing false combinations.
+#3. We made a design decision of keeping a list of lists and where the MasterCombinations list would hold the list of each combination of people,items and people. We faced a challenge
+# in implementing the function for removal of wrong combinations as we were removing the items while iterating which resulted in wrong indexing and gave us the wrong combinations. This was
+# rectified by adding the condition for removal after iterating over all the items in the combination and then removing false combinations.
 
+#Reference:  https://docs.python.org/2/library/itertools.html
 
 count = 0
 ct1=0
