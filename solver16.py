@@ -1,5 +1,47 @@
-__author__ = 'USER'
 '''
+# FORMULATION OF SEARCH PROBLEM:
+
+1. State Space : Any formulation of solvable 16 tiles
+2. Initial State: Input given in text file 'input-board-solver16.txt'
+3. Successor Function: From each initial state 16 states are generated (L1,L2,L3,L4,R1,R2,R3,R4,U1,U2,U3,U4,D1,D2,D3,D4)
+(left, right, up and down sliding)
+4. Goal State: Target state with tiles in 1,2,..,16 positions
+5. Cost: Unit cost is used eg. level1 cost 1
+
+# HEURISTIC used for A* -> tiles in wrong position
+eg. 1 2 3 4
+    5 6 7 8
+    9 10 11 12
+    13 14 16 15
+heuristic --> 2
+Heuristic used is not admissible for all the initial states
+
+# DESCRIPTION OF HOW DOES THE ALGORITHM WORKS?
+
+1. Fringe Dictionary -> To store cost of each state, Distance Dictionary -> To store dist of any state from the start
+state, Heuristic Dictionary --> To store the adjacency matrix for each state
+for instance {level1L1 :[[1,2,3,4],...],...,[level1D1 : [[1,4,3,2],...,[16,14,13,15]]}
+2. Push source node in fringe dictionary, Distance Dictionary, Heuristic Dictionary and initialize the cost as 0.0,0.0,
+input_matrix
+3. If source node is the final node append it to visited list and break
+4. Else push in visited list and call the function 'findstates(selected_node,level)' which takes the minimum cost matrix
+as input with its level and it creates 16 distinct states dictionary with the level and move as key and in the value the
+corresponding matrix.
+For instance if level is 5 (level) then {'level5l1':[[],[]],..} etc.
+5. Now, calculate the cost of each child state using the heurist(matrix) function as heuristic and
+pathcost = distance + 1, f(n) = g(n) + h(n)
+6. if the heuristic is zero than final state is reached and break
+7. push all the nodes with their respective costs in fringe dictionary and pop out the node with minimum cost using
+dictionary method min()
+Note: If fringe dictionary contains the goal node pop out the goal node
+8. Add popped out node to visited list
+9. Return a list in format [visited]
+
+#PROBLEMS FACED:
+
+1. The primary heuristic which is used for finding the goal state with A* algorithm is mismatched tiles, however, the
+admissibility of this heuristic becomes difficult to calculate if the search tree expands for more than 3 levels.
+
 
 '''
 from collections import defaultdict
@@ -26,7 +68,6 @@ def heurist(matrix):
 def findstates(matrix,depth):
    parent=[]
    leveldict=defaultdict(list)
-
 
    #left
    for level in range(0,4):
@@ -72,7 +113,7 @@ def findstates(matrix,depth):
             for j in range(0,4):
              newval.append(matrix[i][j])
             parent.append(newval)
-     keyval='level'+str(depth)+'L'+str(level)
+     keyval='level'+str(depth)+'L'+str(level+1)
      leveldict[keyval]=parent
 
    #direction right
@@ -120,7 +161,7 @@ def findstates(matrix,depth):
             for j in range(0,4):
              newval.append(matrix[i][j])
             parent.append(newval)
-     keyval='level'+str(depth)+'R'+str(level)
+     keyval='level'+str(depth)+'R'+str(level+1)
      leveldict[keyval]=parent
 
    #up
@@ -135,14 +176,13 @@ def findstates(matrix,depth):
               row.append(matrix[i][j])
               longlist.append(matrix[i][j])
           newMatrix.append(row)
-      print newMatrix
       for i in range(0,4):
           if(i!=3):
             newMatrix[i][level]=matrix[i+1][level]
           else:
             newMatrix[i][level]=matrix[level][level]
 
-      keyval='level'+str(depth)+'U'+str(level)
+      keyval='level'+str(depth)+'U'+str(level+1)
       leveldict[keyval]=newMatrix
 
     #down
@@ -157,14 +197,13 @@ def findstates(matrix,depth):
               row.append(matrix[i][j])
               longlist.append(matrix[i][j])
           newMatrix.append(row)
-      print newMatrix
       for i in range(0,4):
           if(i!=0):
             newMatrix[i][level]=matrix[i-1][level]
           else:
             newMatrix[i][level]=matrix[3][level]
 
-      keyval='level'+str(depth)+'D'+str(level)
+      keyval='level'+str(depth)+'D'+str(level+1)
       leveldict[keyval]=newMatrix
 
    return leveldict
@@ -202,7 +241,6 @@ def astar(initial_matrix):
             selected_node = heuristicdict.pop(node)
             dist = distancedict.pop(node)
 
-        print node
         if node == final:
             visited.append(node)
             break
@@ -212,7 +250,7 @@ def astar(initial_matrix):
         level += 1
         heuristicdict.update(statesdict)
         childnodes = heuristicdict.keys()
-        print childnodes
+
         #--finding child states of expanded node and updating the costs in dictionary
         for child in childnodes:
             pathcost = dist + 1
@@ -227,7 +265,6 @@ def astar(initial_matrix):
             else:
                 fringedict[child] = cost
                 distancedict[child] = pathcost
-        print fringedict
     return visited
 
 
@@ -243,16 +280,16 @@ if __name__ == '__main__':
         input_matrix.append([int(split[0]), int(split[1]), int(split[2]), int(split[3])])
         line = document.readline()
     document.close()
-    print input_matrix
 
     expanded_nodes = astar(input_matrix)
-    print expanded_nodes
     expanded_nodes.remove('I')
+    if len(expanded_nodes)==0:
+        print "Input matrix is the target matrix!"
     final_output = []
     n=0
     while n<len(expanded_nodes):
         final_output.append(expanded_nodes[n][6:8])
         n+=1
 
-print final_output
+print "Final Matrix reached on following these O/P directions:",final_output
 
