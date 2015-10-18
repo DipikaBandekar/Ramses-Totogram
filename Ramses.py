@@ -103,7 +103,7 @@ class Progress(object):
                  if element[i][ele]==None:
                     rsult+="."
                  else:
-                     rsult+="X"
+                     rsult+="x"
         print rsult
 
    def complete(self):
@@ -150,7 +150,7 @@ class Progress(object):
 
 
    def LosingPlayer(self):
-        return self.loser() == 'X'
+        return self.loser() == 'x'
 
 
    def alphabeta(self, node, player, alpha, beta):
@@ -165,7 +165,7 @@ class Progress(object):
             val = self.alphabeta(node, player, alpha, beta)
          #   print "val is"+str(val)
             node.make_move(move, None)
-            if player == 'X':
+            if player == 'x':
                 if val > alpha:
                     alpha = val
                 if alpha >= beta:
@@ -175,7 +175,7 @@ class Progress(object):
                     beta = val
                 if beta <= alpha:
                     return alpha
-        if player == 'X':
+        if player == 'x':
             return alpha
 
 def evaluatePlay(obj):
@@ -223,7 +223,7 @@ if __name__ == "__main__":
   else:
     board=[]
     row=[]
-    player = 'X'
+    player = 'x'
     count=0
     game=Progress()
     board=getboardconfiguration()
