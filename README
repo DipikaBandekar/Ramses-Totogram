@@ -1,22 +1,33 @@
-This is a simple dataset of North American (though mostly U.S.) major roads.
+1. Rameses:
+Ramses is a two-player game that requires a board having an n × n grid and n 2 pebbles. Initially the board starts empty and all pebbles are in a pile beside the board. Player 1 picks up a pebble and
+places it in any square of the grid. Player 2 then picks up a pebble from the pile, and places it in any
+open square (i.e. any square except the one selected by Player 1). Play continues back and forth, with
+each player picking up a pebble from the pile and placing it in any open square. A player loses the
+game as soon as they place a pebble that completes a row, a column, or one of the two diagonals of
+the board, and then the other player wins.
 
-city-gps.txt contains one line per city, with three fields per line, 
-delimited by spaces. The first field is the city, followed by the latitude,
-followed by the longitude.
+Your task is to write a Python program that plays Rameses well. Your program should accept a
+command line argument that gives the current state of the board as a string of x’s and .’s, where x
+indicates a pebble and . indicates an empty square, respectively, in row-major order. 
 
-road-segments.txt has one line per road segment connecting two cities.
-The space delimited fields are:
+--> Source: Problem Statement given by Prof. David Crandall, Assistant Professor, School of Informatics and Computing, Indiana University 
 
-- first city
-- second city
-- length (in miles)
-- speed limit (in miles per hour)
-- name of highway
+2. Totogram:
 
+A Totogram is a puzzle played on a board that has a graph structure, with edges connecting some pairs
+of vertices. The edges of the graph form a rooted tree with a particular structure: the root has exactly
+three children, every other non-leaf node has exactly two children, and the leaves are all at the same
+depth k in the tree. This graph has the property that every vertex has exactly 1 or 3 neighbors. A
+sample board with k = 3 is shown in Figure 1. (Note that a Totogram is almost a balanced binary tree,
+except that the root has three subtrees instead of two.) To play the Totogram, the player arranges a
+set of N tiles numbered from 1 to N, where N is the number of vertices in the graph (which, in turn,
+is a function of k), on the vertices of the board. Their score is equal to the maximum absolute value of
+the difference between any pair of adjacent vertices, and the goal is to find an arrangement that makes
+the score as low as possible.
+Your goal is to write a program that finds the best (lowest-cost) solution that it can for a given k. The
+program should run on the command line like:
+python totogram.py k
+The final two lines of output should be (1) the space-delimited tile arrangement, in breadth-first search
+order, and (2) the score for this arrangement. 
 
-Note that there are mistakes and bugs in these files and your code should
-still operate correctly; e.g. not all cities that appear in road-segments.txt
-have a corresponding line in city-gps.txt. You should assume that all roads
-in road-segments.txt are bidirectional, i.e. none are one-way roads, so
-that it's possible to travel from the first city to the second city at the
-same distance at speed as from the second city to the first city.
+--> Source: Problem Statement given by Prof. David Crandall, Assistant Professor, School of Informatics and Computing, Indiana University 
